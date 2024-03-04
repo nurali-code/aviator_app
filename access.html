@@ -32,8 +32,25 @@
 		</div>
 	</main>
 
-	<script src="js/jquery-3.7.1.min.js"></script>
-	<script src="js/script.js"></script>
+	<script>
+		document.getElementById('send_form').addEventListener('submit', function (e) {
+			e.preventDefault();
+			document.getElementById('submit').setAttribute('disabled', 'true');
+			var formData = new FormData(this);
+			var googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbw4jYnbkx8OYYK6Ww37zEZxSRZBQOtqlxri8rd6U7itl2rXri9yIFAhJ784PazbjzEg/exec';
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', googleAppsScriptUrl);
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					alert('Application sent!');
+					document.getElementById('send_form').reset();
+					document.getElementById('submit').removeAttribute('disabled');
+				} else { console.error('Произошла ошибка:', xhr.responseText); }
+			};
+			xhr.onerror = function () { console.error('Произошла ошибка:', xhr.statusText); };
+			xhr.send(formData);
+		});
+	</script>
 
 </body>
 
