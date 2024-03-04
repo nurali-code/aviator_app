@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AVIATOR APP</title>
+	<meta name="theme-color" content="#DC0639">
+	<link type="image/png" rel="shortcut icon" href="./favicon.png">
+
+	<link rel="stylesheet" href="./fonts/stylesheet.css">
+	<link rel="stylesheet" href="./css/style.css">
+
+</head>
+
+<body>
+	<header>MOHAN BASSI</header>
+
+	<main class="form">
+		<div class="box">
+			<h1>AVIATOR APP</h1>
+			<form id="send_form">
+				<label for="name">Name</label>
+				<input type="text" required oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" name="Name"
+					placeholder="Write Your Name" id="name">
+				<label for="tel">Phone number</label>
+				<input type="tel" required placeholder="Write Your Phone Nomber" name="Phone" id="tel">
+				<label for="email">Email ( If available )</label>
+				<input type="email" placeholder="Write Your Email" name="Email" id="email">
+				<button type="submit" id="submit" class="btn">Get access </button>
+			</form>
+			<img src="img/coins.png" class="coins" alt="coins">
+		</div>
+	</main>
+
+
+	<script src="js/inputmask.min.js"></script>
+
+	<script>
+		const phone = document.getElementById('tel');
+		let phoneMask = new Inputmask({
+			mask: "+91 (###)-###-##-##",
+			definitions: { '9': { validator: "9", cardinality: 1, static: true } },
+			showMaskOnHover: false,
+		});
+		phoneMask.mask(phone);
+		phoneMask.mask(phone);
+
+		document.getElementById('send_form').addEventListener('submit', function (e) {
+			e.preventDefault();
+			document.getElementById('submit').setAttribute('disabled', 'true');
+			var formData = new FormData(this);
+			var googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbw4jYnbkx8OYYK6Ww37zEZxSRZBQOtqlxri8rd6U7itl2rXri9yIFAhJ784PazbjzEg/exec';
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', googleAppsScriptUrl);
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					alert('Application sent!');
+					document.getElementById('send_form').reset();
+					document.getElementById('submit').removeAttribute('disabled');
+				} else { console.error('Произошла ошибка:', xhr.responseText); }
+			};
+			xhr.onerror = function () { console.error('Произошла ошибка:', xhr.statusText); };
+			xhr.send(formData);
+		});
+	</script>
+
+</body>
+
+</html>
