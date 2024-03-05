@@ -55,7 +55,8 @@
 			xhr.open('POST', googleAppsScriptUrl);
 			xhr.onload = function () {
 				if (xhr.status === 200) {
-					alert('Application sent!');
+					// alert('Application sent!');
+					window.location.href = './index.html';
 					document.getElementById('send_form').reset();
 					document.getElementById('submit').removeAttribute('disabled');
 				} else { console.error('Произошла ошибка:', xhr.responseText); }
